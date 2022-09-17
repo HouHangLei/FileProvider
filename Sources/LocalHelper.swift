@@ -42,7 +42,13 @@ public final class LocalFileObject: FileObject {
     /// Initiates a `LocalFileObject` with attributes of file in url.
     public convenience init?(fileWithURL fileURL: URL) {
         do {
-            let values = try fileURL.resourceValues(forKeys: [.nameKey, .fileSizeKey, .totalFileSizeKey, .fileAllocatedSizeKey, .totalFileAllocatedSizeKey, .creationDateKey, .contentModificationDateKey, .fileResourceTypeKey, .isHiddenKey, .isWritableKey, .typeIdentifierKey, .generationIdentifierKey, .documentIdentifierKey])
+            // add contentTypeKey
+            let values: URLResourceValues
+            if #available(iOS 14.0, *) {
+                values = try fileURL.resourceValues(forKeys: [.nameKey, .fileSizeKey, .totalFileSizeKey, .fileAllocatedSizeKey, .totalFileAllocatedSizeKey, .creationDateKey, .contentModificationDateKey, .fileResourceTypeKey, .isHiddenKey, .isWritableKey, .typeIdentifierKey, .generationIdentifierKey, .documentIdentifierKey,.contentTypeKey])
+            } else {
+                values = try fileURL.resourceValues(forKeys: [.nameKey, .fileSizeKey, .totalFileSizeKey, .fileAllocatedSizeKey, .totalFileAllocatedSizeKey, .creationDateKey, .contentModificationDateKey, .fileResourceTypeKey, .isHiddenKey, .isWritableKey, .typeIdentifierKey, .generationIdentifierKey, .documentIdentifierKey])
+            }
             let path = fileURL.relativePath.hasPrefix("/") ? fileURL.relativePath : "/" + fileURL.relativePath
             
             self.init(url: fileURL, name: values.name ?? fileURL.lastPathComponent, path: path)
