@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UniformTypeIdentifiers
 
 /// Containts path, url and attributes of a file or resource.
 open class FileObject: NSObject {
@@ -134,6 +135,17 @@ open class FileObject: NSObject {
         }
         set {
             allValues[.isWritableKey] = !newValue
+        }
+    }
+    
+    /// File is a Directory
+    @available(iOSApplicationExtension 14.0, *)
+    open var utType: UTType? {
+        get {
+            return allValues[.contentTypeKey] as? UTType
+        }
+        set {
+            allValues[.contentTypeKey] = newValue
         }
     }
     
