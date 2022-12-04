@@ -139,7 +139,7 @@ open class FileObject: NSObject {
     }
     
     /// File is a Directory
-    @available(iOSApplicationExtension 14.0, *)
+    @available(macOS 11.0, iOS 14.0, watchOS 7.0, tvOS 14.0, *)
     open var utType: UTType? {
         get {
             return allValues[.contentTypeKey] as? UTType
